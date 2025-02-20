@@ -22,7 +22,6 @@ function Login() {
     try {
       const res = await axios.post('http://localhost:3000/users/login', formData);
       localStorage.setItem('token', res.data.token);
-      alert('Login successful!');
       navigate('/home'); // Redirect to /home after successful login
     } catch (error) {
       alert(error.response.data.error);
