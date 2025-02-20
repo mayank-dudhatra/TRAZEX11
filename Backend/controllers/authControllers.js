@@ -87,12 +87,12 @@ exports.deleteUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { email, password } = req.body; // Expect 'email' instead of 'username'
 
         // Debugging logs
-        console.log('Login Attempt:', { username, password });
+        console.log('Login Attempt:', { email, password });
 
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ email }); // Find user by email
 
         if (!user) {
             console.log('User not found');
@@ -100,8 +100,6 @@ exports.loginUser = async (req, res) => {
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
-        console.log(password);
-        console.log(user.password);
         if (!isMatch) {
             console.log('Password does not match');
             return res.status(401).json({ error: 'Invalid credentials' });
