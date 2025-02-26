@@ -1,18 +1,32 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Navbar from '../Navbar/Navbar';
-import Footer from '../Footer/Footer';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 const ProfileCard = () => {
-  const stats = [
-    { label: 'BUY', value: 6 },
-    { label: 'SELL', value: 5 }
-  ];
+  const [captain, setCaptain] = useState(null);
+  const [viceCaptain, setViceCaptain] = useState(null);
+  const [buyCount, setBuyCount] = useState(0);
+  const [sellCount, setSellCount] = useState(0);
 
-  const companies = [
-    { name: 'Reliance Industries', logoSrc: 'https://cdn.builder.io/api/v1/image/assets/TEMP/c714cd6b8242a84c86a910fcd2ffc7fcbaf18912e20644170c6b02663e905ff9?placeholderIfAbsent=true&apiKey=f5294c2440c849e09806e1501d656072', badge: 'C' },
-    { name: 'Reliance Industries', logoSrc: 'https://cdn.builder.io/api/v1/image/assets/TEMP/c714cd6b8242a84c86a910fcd2ffc7fcbaf18912e20644170c6b02663e905ff9?placeholderIfAbsent=true&apiKey=f5294c2440c849e09806e1501d656072', badge: 'VC' }
-  ];
+  useEffect(() => {
+   
+    const storedCaptain = localStorage.getItem("captain");
+    const storedViceCaptain = localStorage.getItem("viceCaptain");
+
+    if (storedCaptain) setCaptain(JSON.parse(storedCaptain));
+    if (storedViceCaptain) setViceCaptain(JSON.parse(storedViceCaptain));
+
+    // 🔍 Get Buy & Sell Stock Data
+    const storedBuyStocks = JSON.parse(localStorage.getItem("buyStocks")) || [];
+    const storedSellStocks = JSON.parse(localStorage.getItem("sellStocks")) || [];
+
+    console.log("Buy Stocks:", storedBuyStocks);
+    console.log("Sell Stocks:", storedSellStocks);
+
+    setBuyCount(storedBuyStocks.length);
+    setSellCount(storedSellStocks.length);
+  }, []);
 
   return (
     <>
@@ -33,38 +47,34 @@ const ProfileCard = () => {
             <div className="my-auto text-3xl font-bold text-[#c5c5c5]">
               Mayank_Dudhatra_06 (T1)
             </div>
-            <div className="flex gap-10">
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/812b324c2827fa1052ac4ae6d00f5c858872898df9012342d0d9768710d58b7d?apiKey=f5294c2440c849e09806e1501d656072"
-                alt=""
-                className="object-contain shrink-0 my-auto w-10 aspect-square"
-              />
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/e16ffdde4e868e0f07e1741e7947eb45d692c8ee51e43f27b79c8e85ec0886f8?apiKey=f5294c2440c849e09806e1501d656072"
-                alt=""
-                className="object-contain shrink-0 aspect-square w-[45px]"
-              />
-            </div>
           </div>
 
           {/* Stats & Company Logos */}
           <div className="flex relative flex-wrap gap-5 justify-between self-center mt-7 w-full max-w-[1031px] max-md:max-w-full">
+            {/* Buy & Sell Count */}
             <div className="flex gap-10 self-start font-bold text-[#c5c5c5] whitespace-nowrap">
-              {stats.map((stat, index) => (
-                <StatBox key={index} label={stat.label} value={stat.value} />
-              ))}
+              <StatBox label="BUY" value={buyCount} />
+              <StatBox label="SELL" value={sellCount} />
             </div>
+
+            {/* Captain & Vice-Captain */}
             <div className="flex gap-10 text-lg font-semibold leading-5 text-center">
-              {companies.map((company, index) => (
-                <CompanyLogo key={index} name={company.name} logoSrc={company.logoSrc} badge={company.badge} />
-              ))}
+              {captain && <CompanyLogo name={captain.name} logoSrc={captain.image} badge="C" />}
+              {viceCaptain && <CompanyLogo name={viceCaptain.name} logoSrc={viceCaptain.image} badge="VC" />}
             </div>
           </div>
         </div>
       </div>
 
+      {/* Create Team Button */}
+      <div className="flex justify-center items-center mt-5">
+        <Link
+          to="/Createteams"
+          className="px-6 py-3 text-lg font-semibold text-white bg-[#1f1f1f] rounded-lg shadow-lg hover:bg-[#80db60] transition-all"
+        >
+          Create Team
+        </Link>
+      </div>
 
       <Footer />
     </>
@@ -83,26 +93,25 @@ const StatBox = ({ label, value }) => {
 
 // Company Logo Component
 const CompanyLogo = ({ name, logoSrc, badge }) => {
-    return (
-      <div className="relative flex flex-col self-end mt-8">
-        <div className="relative">
-          <img
-            loading="lazy"
-            src={logoSrc}
-            alt={`${name} logo`}
-            className="object-contain aspect-square w-[90px]"
-          />
-          {/* Badge for Captain (C) or Vice-Captain (VC) */}
-          {badge && (
-            <div className="absolute top-0 left-0 bg-neutral-900 text-white border-[2px] border-stone-300 rounded-full h-6 w-6 flex items-center justify-center text-xs font-semibold">
-              {badge}
-            </div>
-          )}
-        </div>
-        <div className="self-start mt-4">{name}</div>
+  return (
+    <div className="relative flex flex-col self-end mt-8">
+      <div className="relative">
+        <img
+          loading="lazy"
+          src={logoSrc}
+          alt={`${name} logo`}
+          className="object-contain aspect-square w-[90px]"
+        />
+        {/* Badge for Captain (C) or Vice-Captain (VC) */}
+        {badge && (
+          <div className="absolute top-0 left-0 bg-neutral-900 text-white border-[2px] border-stone-300 rounded-full h-6 w-6 flex items-center justify-center text-xs font-semibold">
+            {badge}
+          </div>
+        )}
       </div>
-    );
-  };
-  
+      <div className="self-start mt-4">{name}</div>
+    </div>
+  );
+};
 
 export default ProfileCard;

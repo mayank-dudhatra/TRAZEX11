@@ -46,7 +46,7 @@ function Aboutus() {
         <img style={{marginLeft: 50}} src="https://res.cloudinary.com/dbrb9ptmn/image/upload/v1738762743/ymw9qyzf5txs1bb7kqr6.png" alt="Sport-Bull" height={550} width={550} />
     </div>
 
-    <ProjectCommitmentCard />
+    {/* <ProjectCommitmentCard /> */}
 
     <Footer />
     </>

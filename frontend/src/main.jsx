@@ -30,6 +30,11 @@ import CaptainPage from './components/Captain-Page/CaptainPage';
 import MyTeamPage from './components/MyTeam/Teampage.';
 import JoinContent from './components/JoinContent/JoinContent';
 import MyContest from './components/MyContest/MyContest';
+import MycontestTeam from './components/MycontentsTeam/MycontestTeam';
+import ScrennerCard from './components/Screener/ScreenerCard';
+import Wallet from './components/Wallet/Wallet';
+import Leaderboard from './components/Leaderboard/Leaderboard';
+import Loader from './components/Loader/Loader'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -48,6 +53,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path="/myteams" element={<MyTeamPage />} />
           <Route path="/joincontent" element={<JoinContent />} />
           <Route path="/mycontest" element={<MyContest />} />
+          <Route path="/mycontestteam" element={<MycontestTeam />} />
+          <Route path="/screener" element={<ScrennerCard />} />
+          <Route path="/wallet" element={<Wallet />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/loader" element={<Loader />} />
+
+
 
         </Routes>
     {/* <Footer /> */}

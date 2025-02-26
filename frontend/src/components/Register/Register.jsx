@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -76,7 +77,7 @@ function Register() {
           </div>
 
           <div className="forgot-password">
-            <a href="#"><span style={{color: 'black'}}>You Don`t have an Account ? </span>Sign-In</a>
+          <Link to="/login"><div className='text-[#3FD68C]'> <span  style={{color: 'black'}}>You Don`t have an Account ? </span>Sign-In</div></Link>
           </div>
         </form>
       </div>
